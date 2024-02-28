@@ -1,2 +1,28 @@
-test
-dron - lox
+import tkinter as tk
+import requests
+
+
+def load_data():
+    url = "https://dron3916.github.io/info_server/data.txt"
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.text
+        label.config(text=data)
+    except requests.exceptions.RequestException as e:
+        label.config(text=str(e))
+
+
+root = tk.Tk()
+root.title("Text Viewer")
+root.geometry("500x500")
+
+label = tk.Label(root, wraplength=400)
+label.pack()
+
+button = tk.Button(root, text="Обновить", command=load_data)
+button.pack()
+
+load_data()
+
+root.mainloop()
